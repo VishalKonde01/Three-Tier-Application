@@ -1,0 +1,21 @@
+name: this for the bulding pushing image dockerhub frontend
+
+on: 
+    workflow_dispatch:
+    
+jobs:
+  publish_images:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build images
+        run: |
+          docker build frontend -t ${{ secrets.USERNAME }}/fctp-docker-project-frontend:latest
+
+      - name: Push images to Docker Hub
+        run: |
+          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.ACCESS_TOKEN }}
+          docker push ${{ secrets.USERNAME }}/fctp-docker-project-frontend:latest
