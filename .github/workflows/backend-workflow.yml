@@ -1,0 +1,23 @@
+name: this for the bulding pushing image dockerhub Backend
+
+on: 
+    push:
+      branches:
+        -main
+    
+jobs:
+  publish_images:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build images
+        run: |
+          docker build backend -t ${{ secrets.USERNAME }}/vish-docker-project-backend:latest
+
+      - name: Push images to Docker Hub
+        run: |
+          docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.ACCESS_TOKEN }}
+          docker push ${{ secrets.USERNAME }}/vish-docker-project-backend:latest
