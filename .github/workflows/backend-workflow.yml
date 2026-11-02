@@ -3,7 +3,7 @@ name: this for the bulding pushing image dockerhub Backend
 on: 
     push:
       branches:
-        -main
+        - main
     
 jobs:
   publish_images:
