@@ -1,4 +1,4 @@
-const API_URL="http://43.205.212.152:5000"
+const API_URL="http:/13.233.204.143:5000"
 
 
 
