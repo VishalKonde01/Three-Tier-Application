@@ -4,22 +4,21 @@ services:
     container_name: my_postgres
     restart: unless-stopped
 
-    env-file:
+    env_file:
       - ./database/.env
-    
+
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./database/create_table.sql:/docker-entrypoint-initdb.d/01-create-tables.sql:ro
 
     networks:
-      - mynetwork 
+      - mynetwork
 
-    healthchecks:
+    healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s
       timeout: 3s
       retries: 10
-
 
   backend:
     build:
@@ -31,22 +30,21 @@ services:
     restart: unless-stopped
 
     env_file:
-      - ./backend/.env 
-    
+      - ./backend/.env
+
     ports:
       - "5000:5000"
 
     depends_on:
-      postgres: 
+      postgres:
         condition: service_healthy
 
     networks:
       - mynetwork
 
-  
   frontend:
     build:
-      context: ./frontend 
+      context: ./frontend
       dockerfile: Dockerfile
 
     image: frontend:vishv2
@@ -62,12 +60,9 @@ services:
     networks:
       - mynetwork
 
-  
 volumes:
   pgdata:
 
 networks:
   mynetwork:
     driver: bridge
-
-    
